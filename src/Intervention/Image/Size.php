@@ -31,11 +31,11 @@ class Size
     /**
      * Creates a new Size instance
      *
-     * @param int   $width
-     * @param int   $height
-     * @param Point $pivot
+     * @param int|null   $width
+     * @param int|null   $height
+     * @param Point|null $pivot
      */
-    public function __construct($width = null, $height = null, Point $pivot = null)
+    public function __construct($width = null, $height = null, ?Point $pivot = null)
     {
         $this->width = is_numeric($width) ? intval($width) : 1;
         $this->height = is_numeric($height) ? intval($height) : 1;
@@ -99,10 +99,10 @@ class Size
      *
      * @param  int     $width
      * @param  int     $height
-     * @param  Closure $callback
+     * @param  Closure|null $callback
      * @return Size
      */
-    public function resize($width, $height, Closure $callback = null)
+    public function resize($width, $height, ?Closure $callback = null)
     {
         if (is_null($width) && is_null($height)) {
             throw new InvalidArgumentException(
@@ -137,7 +137,7 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    private function resizeWidth($width, Closure $callback = null)
+    private function resizeWidth($width, ?Closure $callback = null)
     {
         $constraint = $this->getConstraint($callback);
 
@@ -173,7 +173,7 @@ class Size
      * @param  Closure $callback
      * @return Size
      */
-    private function resizeHeight($height, Closure $callback = null)
+    private function resizeHeight($height, ?Closure $callback = null)
     {
         $constraint = $this->getConstraint($callback);
 
@@ -278,7 +278,7 @@ class Size
      */
     public function align($position, $offset_x = 0, $offset_y = 0)
     {
-        switch (strtolower($position)) {
+        switch (strtolower($position ?? '')) {
 
             case 'top':
             case 'top-center':
@@ -361,7 +361,7 @@ class Size
      * @param  Closure $callback
      * @return \Intervention\Image\Constraint
      */
-    private function getConstraint(Closure $callback = null)
+    private function getConstraint(?Closure $callback = null)
     {
         $constraint = new Constraint(clone $this);
 
